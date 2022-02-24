@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function UserBlock(): JSX.Element {
   return (
     <ul className="user-block">
@@ -7,7 +9,7 @@ export default function UserBlock(): JSX.Element {
         </div>
       </li>
       <li className="user-block__item">
-        <a className="user-block__link">Sign out</a>
+        <Link to='/' className="user-block__link">Sign out</Link>
       </li>
     </ul>
   );
