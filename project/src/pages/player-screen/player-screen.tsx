@@ -1,7 +1,15 @@
-export default function PlayerScreen():JSX.Element{
+import { Film } from '../../types/film';
+
+type PlayerScreenProps = {
+  film: Film
+}
+
+export default function PlayerScreen({film}: PlayerScreenProps):JSX.Element{
+  const {videoLink, previewVideoLink} = film;
+
   return(
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src={videoLink} className="player__video" poster={previewVideoLink}></video>
 
       <button type="button" className="player__exit">Exit</button>
 
