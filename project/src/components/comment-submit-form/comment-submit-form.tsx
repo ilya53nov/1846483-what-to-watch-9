@@ -16,7 +16,7 @@ export default function CommentSubmitForm():JSX.Element {
     ratingStars.push(value);
   }
 
-  const ratingStarsList = ratingStars.reverse().map((value) => <RatingStar key={value} setState={setRating} value={value} rating={rating} /> );
+  const ratingStarsList = ratingStars.reverse().map((value) => <RatingStar key={value} setRating={setRating} value={value} rating={rating} /> );
 
   const fieldChangeHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const {value} = evt.currentTarget;

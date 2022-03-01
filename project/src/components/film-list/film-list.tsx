@@ -10,7 +10,7 @@ export default function FilmList({films}: FilmListProops):JSX.Element {
   const [activeFilmCard, setActiveFilmCard] = useState(0);
 
   const filmList = films
-    .map((film) => <SmallFilmCard key={film.id} film={film} setState={setActiveFilmCard}/>);
+    .map((film) => <SmallFilmCard key={film.id} film={film} setActiveFilmCard={setActiveFilmCard}/>);
 
   return(
     <div className="catalog__films-list">

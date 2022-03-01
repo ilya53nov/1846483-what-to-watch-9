@@ -15,11 +15,13 @@ export default function AddReviewScreen({films}:AddReviewProps):JSX.Element{
 
   let film: Film;
 
+  // TO DO
   paramsId
     ? film = films.filter((currentFilm) => currentFilm.id === +paramsId)[0]
     : film = films[0];
 
   const {name, id, posterImage, backgroundImage} = film;
+
 
   return(
     <section className="film-card film-card--full">
