@@ -4,45 +4,59 @@ import { Film } from '../../types/film';
 import VideoPlayer from '../video-player/video-player';
 
 const DEFAULT_MUTE = true;
+const WAIT_TIME_MS = 1000;
 
 type SmallFilmCardProps = {
   film: Film;
-  setActiveFilmCard: (activeFilmCard: number) => void;
 }
 
-export default function SmallFilmCard({film, setActiveFilmCard}: SmallFilmCardProps): JSX.Element {
+export default function SmallFilmCard({film}: SmallFilmCardProps): JSX.Element {
   const {previewImage, name, id, previewVideoLink} = film;
 
   const [isPlay, setIsPlay] = useState(false);
 
-  let currentPlay = true;
+  let timeoutId: ReturnType<typeof setTimeout> | null;
 
-  const toggleIsPlay = () => {
-    setIsPlay(currentPlay);
+  const turnOffPlay = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+
+    setIsPlay(false);
   };
 
   const onMouseEnterHandler = () => {
-    toggleIsPlay();
-    currentPlay = true;
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => setIsPlay(true), WAIT_TIME_MS);
   };
 
   const onMouseLeaveHandler = () => {
-    currentPlay = false;
-    toggleIsPlay();
+    turnOffPlay();
+  };
+
+  const onClickHandler = () => {
+    turnOffPlay();
   };
 
   return (
-    <article className="small-film-card catalog__films-card" onMouseEnter={() => setTimeout(() => onMouseEnterHandler(), 1000) } onMouseLeave={() => onMouseLeaveHandler()}>
-      <div className="small-film-card__image">
+    <article className="small-film-card catalog__films-card" onClick={onClickHandler} onMouseEnter={onMouseEnterHandler} onMouseLeave={onMouseLeaveHandler}>
+      <Link to={`/films/${id}`}>
+        <div className="small-film-card__image">
 
-        {isPlay
-          ? <VideoPlayer src={previewVideoLink} poster={previewImage} isPlay={isPlay} isMute={DEFAULT_MUTE}/>
-          : <img src={previewImage} alt={name} width="280" height="175" />}
+          {isPlay
+            ? <VideoPlayer src={previewVideoLink} poster={previewImage} isPlay={isPlay} isMute={DEFAULT_MUTE}/>
+            : <img src={previewImage} alt={name} width="280" height="175" />}
 
-      </div>
+        </div>
+      </Link>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
       </h3>
     </article>
   );
 }
+
