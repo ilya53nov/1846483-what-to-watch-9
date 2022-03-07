@@ -11,6 +11,7 @@ import PrivateRoute from '../../private-route';
 import {Film} from '../../types/film';
 import {Comment} from '../../types/comment';
 
+
 type AppScreenProps = {
   films: Film[];
   comments: Comment[];
@@ -31,7 +32,7 @@ function App({films, comments}:AppScreenProps): JSX.Element {
         }
         />
         <Route path={AppRoute.AddReview} element={<AddReviewScreen films={films}/>} />
-        <Route path={AppRoute.Film} element={<FilmScreen films={films} />} />
+        <Route path={AppRoute.Film} element={<FilmScreen films={films} comments={comments}/>} />
         <Route path={AppRoute.Player} element={<PlayerScreen film={films[0]} />} />
         <Route path={AppRoute.SignIn} element={<SignInScreen />} />
         <Route path="*" element={<NotFoundScreen />} />

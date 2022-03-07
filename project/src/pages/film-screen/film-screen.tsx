@@ -4,23 +4,25 @@ import FilmList from '../../components/film-list/film-list';
 import Logo from '../../components/logo/logo';
 import PageFooter from '../../components/page-footer/page-footer';
 import UserBlock from '../../components/user-block/user-block';
+import Tabs from '../../components/tabs/tabs';
+import { Comment } from '../../types/comment';
+
 
 type FilmScreenProps = {
   films: Film[];
+  comments: Comment[];
+
 }
 
-export default function FilmScreen({films}: FilmScreenProps):JSX.Element{
-  const params = useParams();
+export default function FilmScreen({films, comments}: FilmScreenProps):JSX.Element{
+  const params = useParams<string>();
 
-  const paramsId = params.id;
+  const paramsId = Number(params.id);
 
-  let film: Film;
+  const film: Film = films.filter((currentFilm) => currentFilm.id === +paramsId)[0];
+  const commentsCurrentFilm: Comment[] = comments.filter((currentComments) => currentComments.id === +paramsId);
 
-  paramsId
-    ? film = films.filter((currentFilm) => currentFilm.id === +paramsId)[0]
-    : film = films[0];
-
-  const {name, id, posterImage, genre, released, backgroundImage, rating, scoresCount, director, starring, description} = film;
+  const {name, id, posterImage, genre, released, backgroundImage} = film;
 
   return(
     <>
@@ -71,35 +73,7 @@ export default function FilmScreen({films}: FilmScreenProps):JSX.Element{
             </div>
 
             <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <Link to='/' className="film-nav__link">Overview</Link>
-                  </li>
-                  <li className="film-nav__item">
-                    <Link to='/' className="film-nav__link">Details</Link>
-                  </li>
-                  <li className="film-nav__item">
-                    <Link to='/' className="film-nav__link">Reviews</Link>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">{scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{description}</p>
-
-                <p className="film-card__director"><strong>Director: {director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {starring.join(', ')}</strong></p>
-              </div>
+              <Tabs film={film} comments={commentsCurrentFilm}/>
             </div>
           </div>
         </div>
@@ -108,7 +82,7 @@ export default function FilmScreen({films}: FilmScreenProps):JSX.Element{
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films={films} />
+          <FilmList films={films} genre={genre} id={id}/>
         </section>
 
         <PageFooter />
