@@ -2,7 +2,7 @@ export enum AppRoute {
   Main = '/',
   SignIn = '/login',
   MyList = '/mylist',
-  Film = '/films/:id',
+  Film = '/films/:id/',
   AddReview = '/films/:id/review',
   Player = '/player/:id',
 }
@@ -25,3 +25,9 @@ export const genres = [
   'Sci-Fi',
   'Thrillers',
 ];
+
+export enum Tab {
+  Overview = 'Overview',
+  Details = 'Details',
+  Reviews = 'Reviews',
+}
