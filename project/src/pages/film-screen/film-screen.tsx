@@ -4,14 +4,12 @@ import FilmList from '../../components/film-list/film-list';
 import Logo from '../../components/logo/logo';
 import PageFooter from '../../components/page-footer/page-footer';
 import UserBlock from '../../components/user-block/user-block';
-import Tabs from '../../components/tabs/tabs';
 import { Comment } from '../../types/comment';
-
+import Tabs from '../../components/tabs/tabs';
 
 type FilmScreenProps = {
   films: Film[];
   comments: Comment[];
-
 }
 
 export default function FilmScreen({films, comments}: FilmScreenProps):JSX.Element{
