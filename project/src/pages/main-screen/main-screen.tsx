@@ -1,18 +1,16 @@
 import FilmList from '../../components/film-list/film-list';
-import {Film} from '../../types/film';
-import {Comment} from '../../types/comment';
 import { Fragment } from 'react';
 import Logo from '../../components/logo/logo';
 import PageFooter from '../../components/page-footer/page-footer';
 import UserBlock from '../../components/user-block/user-block';
 import GenresList from '../../components/catalog-genres/genres-list';
+import { useAppSelector } from '../../hooks';
 
-type MainScreenProps = {
-  films: Film[];
-  comments: Comment[];
-}
+export default function MainScreen():JSX.Element {
+  const genres = useAppSelector((state) => state.genres);
 
-export default function MainScreen({films, comments}: MainScreenProps):JSX.Element {
+  const films = useAppSelector((state) => state.films);
+
   const {name, genre, released, backgroundImage, posterImage} = films[0];
   return (
     <Fragment>
@@ -64,7 +62,7 @@ export default function MainScreen({films, comments}: MainScreenProps):JSX.Eleme
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresList/>
+          <GenresList genres={genres}/>
 
           <FilmList films={films} />
 
