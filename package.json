@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "dayjs": "^1.10.8",
-    "react-dayjs": "^0.3.2"
-  }
-}
