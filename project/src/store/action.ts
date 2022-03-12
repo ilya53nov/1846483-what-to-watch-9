@@ -5,3 +5,7 @@ import { Action } from '../const';
 export const choiceGenre = createAction(Action.ChoiceGenre, (genre) => ({
   payload: genre,
 }));
+
+export const showMore = createAction(Action.ShowMore);
+
+export const resetShowedFilmsCount = createAction(Action.ResetShowedFilmsCount);
