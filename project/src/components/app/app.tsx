@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import { Route, Routes, useLocation} from 'react-router-dom';
 import MainScreen from '../../pages/main-screen/main-screen';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import FilmScreen from '../../pages/film-screen/film-screen';
@@ -10,6 +10,9 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import PrivateRoute from '../../private-route';
 import {Film} from '../../types/film';
 import {Comment} from '../../types/comment';
+import { useAppDispatch} from '../../hooks';
+import { resetShowedFilmsCount } from '../../store/action';
+import { useEffect } from 'react';
 
 
 type AppScreenProps = {
@@ -20,25 +23,35 @@ type AppScreenProps = {
 function App({films, comments}:AppScreenProps): JSX.Element {
   const favoriteFilms = films.filter((film) => film.isFavorite);
 
+  const {pathname} = useLocation();
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (pathname !== AppRoute.Main) {
+      dispatch(resetShowedFilmsCount());
+    }
+  },[pathname, dispatch]);
+
   return (
-    <BrowserRouter>
-      <Routes>
 
-        <Route path={AppRoute.Main} element={<MainScreen/>} />
-        <Route path={AppRoute.MyList} element={
-          <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-            <MyListScreen films={favoriteFilms}/>
-          </PrivateRoute>
-        }
-        />
-        <Route path={AppRoute.AddReview} element={<AddReviewScreen films={films}/>} />
-        <Route path={AppRoute.Film} element={<FilmScreen films={films} comments={comments}/>} />
-        <Route path={AppRoute.Player} element={<PlayerScreen film={films[0]} />} />
-        <Route path={AppRoute.SignIn} element={<SignInScreen />} />
-        <Route path="*" element={<NotFoundScreen />} />
-      </Routes>
+    <Routes>
 
-    </BrowserRouter>
+      <Route path={AppRoute.Main} element={<MainScreen/>} />
+      <Route path={AppRoute.MyList} element={
+        <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+          <MyListScreen films={favoriteFilms}/>
+        </PrivateRoute>
+      }
+      />
+      <Route path={AppRoute.AddReview} element={<AddReviewScreen films={films}/>} />
+      <Route path={AppRoute.Film} element={<FilmScreen films={films} comments={comments}/>} />
+      <Route path={AppRoute.Player} element={<PlayerScreen film={films[0]} />} />
+      <Route path={AppRoute.SignIn} element={<SignInScreen />} />
+      <Route path="*" element={<NotFoundScreen />} />
+    </Routes>
+
+
   );
 }
 
