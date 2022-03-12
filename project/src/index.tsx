@@ -5,14 +5,17 @@ import { films } from './mocks/films';
 import { comments } from './mocks/comments';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App
-        films={films}
-        comments={comments}
-      />
+      <BrowserRouter>
+        <App
+          films={films}
+          comments={comments}
+        />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
