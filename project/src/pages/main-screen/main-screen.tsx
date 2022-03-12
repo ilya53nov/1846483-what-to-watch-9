@@ -5,11 +5,16 @@ import PageFooter from '../../components/page-footer/page-footer';
 import UserBlock from '../../components/user-block/user-block';
 import GenresList from '../../components/catalog-genres/genres-list';
 import { useAppSelector } from '../../hooks';
+import ShowMoreButton from '../../components/show-more-button/show-more-button';
 
 export default function MainScreen():JSX.Element {
   const genres = useAppSelector((state) => state.genres);
 
-  const films = useAppSelector((state) => state.films);
+  const filmsCount = useAppSelector((state) => state.films.length);
+
+  const showedFilmsCount = useAppSelector((state) => state.showedFilmsCount);
+
+  const films = useAppSelector((state) => state.films).slice(0, showedFilmsCount);
 
   const {name, genre, released, backgroundImage, posterImage} = films[0];
   return (
@@ -66,9 +71,7 @@ export default function MainScreen():JSX.Element {
 
           <FilmList films={films} />
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <ShowMoreButton showedFilmsCount={showedFilmsCount} filmsCount={filmsCount}/>
         </section>
 
         <PageFooter />
