@@ -185,4 +185,28 @@ export const films: Film[] = [
     videoLink: 'https://9.react.pages.academy/static/film/video/bike.mp4',
     previewVideoLink: 'https://9.react.pages.academy/static/film/video/dog.mp4',
   },
+
+  {
+    name: 'Seven Years in Tibet',
+    posterImage: 'https://9.react.pages.academy/static/film/poster/Seven_Years_in_Tibet.jpg',
+    previewImage: 'https://9.react.pages.academy/static/film/preview/seven-years-in-tibet.jpg',
+    backgroundImage: 'https://9.react.pages.academy/static/film/background/Seven_Years_in_Tibet.jpg',
+    backgroundColor: '#C6CADF',
+    description: 'True story of Heinrich Harrer, an Austrian mountain climber who became friends with the Dalai Lama at the time of China\'s takeover of Tibet.',
+    rating: 3.6,
+    scoresCount: 112612,
+    director: 'Jean-Jacques Annaud',
+    starring: [
+      'Brad Pitt',
+      'David Thewlis',
+      'BD Wong',
+    ],
+    runTime: 136,
+    genre: 'Adventure',
+    released: 1997,
+    id: 9,
+    isFavorite: false,
+    videoLink: 'https://9.react.pages.academy/static/film/video/bike.mp4',
+    previewVideoLink: 'https://9.react.pages.academy/static/film/video/dog.mp4',
+  },
 ];
