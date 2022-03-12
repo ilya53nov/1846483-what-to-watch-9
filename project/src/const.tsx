@@ -15,6 +15,8 @@ export enum AuthorizationStatus {
 
 export enum Action {
   ChoiceGenre = 'Choice genre',
+  ShowMore = 'Show more',
+  ResetShowedFilmsCount = 'Reset showed films count',
 }
 
 export enum Tab {
@@ -26,3 +28,5 @@ export enum Tab {
 export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_GENRES = 9;
+
+export const INITIAL_SHOW_FILM_COUNT = 8;
