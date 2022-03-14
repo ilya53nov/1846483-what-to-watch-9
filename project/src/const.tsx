@@ -29,4 +29,4 @@ export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_GENRES = 9;
 
-export const INITIAL_SHOW_FILM_COUNT = 8;
+export const FILMS_PER_PAGE = 8;
