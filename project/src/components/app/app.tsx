@@ -6,26 +6,20 @@ import MyListScreen from '../../pages/my-list-screen/my-list-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
 import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute} from '../../const';
 import PrivateRoute from '../../private-route';
-import {Film} from '../../types/film';
-import {Comment} from '../../types/comment';
-import { useAppDispatch} from '../../hooks';
+import { useAppDispatch, useAppSelector} from '../../hooks';
 import { resetShowedFilmsCount } from '../../store/action';
 import { useEffect } from 'react';
+import { LoadingScreen } from '../loading-screen/loading-screen';
 
 
-type AppScreenProps = {
-  films: Film[];
-  comments: Comment[];
-}
-
-function App({films, comments}:AppScreenProps): JSX.Element {
-  const favoriteFilms = films.filter((film) => film.isFavorite);
-
+function App(): JSX.Element {
   const {pathname} = useLocation();
 
   const dispatch = useAppDispatch();
+
+  const {isLoaded} = useAppSelector((state) => state.films);
 
   useEffect(() => {
     if (pathname !== AppRoute.Main) {
@@ -33,20 +27,26 @@ function App({films, comments}:AppScreenProps): JSX.Element {
     }
   },[pathname, dispatch]);
 
+  if (!isLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
 
     <Routes>
 
       <Route path={AppRoute.Main} element={<MainScreen/>} />
       <Route path={AppRoute.MyList} element={
-        <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-          <MyListScreen films={favoriteFilms}/>
+        <PrivateRoute>
+          <MyListScreen />
         </PrivateRoute>
       }
       />
-      <Route path={AppRoute.AddReview} element={<AddReviewScreen films={films}/>} />
-      <Route path={AppRoute.Film} element={<FilmScreen films={films} comments={comments}/>} />
-      <Route path={AppRoute.Player} element={<PlayerScreen film={films[0]} />} />
+      <Route path={AppRoute.AddReview} element={<AddReviewScreen />} />
+      <Route path={AppRoute.Film} element={<FilmScreen />} />
+      <Route path={AppRoute.Player} element={<PlayerScreen />} />
       <Route path={AppRoute.SignIn} element={<SignInScreen />} />
       <Route path="*" element={<NotFoundScreen />} />
     </Routes>
