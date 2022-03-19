@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { Link} from 'react-router-dom';
+import { DEFAULT_MUTE, WAIT_TIME_MS } from '../../const';
 import { Film } from '../../types/film';
 import VideoPlayer from '../video-player/video-player';
-
-const DEFAULT_MUTE = true;
-const WAIT_TIME_MS = 1000;
 
 type SmallFilmCardProps = {
   film: Film;
@@ -17,6 +15,7 @@ export default function SmallFilmCard({film}: SmallFilmCardProps): JSX.Element {
 
   let timeoutId: ReturnType<typeof setTimeout> | null;
 
+  // TODO
   const turnOffPlay = () => {
     if (timeoutId) {
       clearTimeout(timeoutId);

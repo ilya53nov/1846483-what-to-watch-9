@@ -28,7 +28,7 @@ function getTab({activeItem, film, comments}: getTabProps): JSX.Element {
   }
 
   if (activeItem === Tab.Reviews) {
-    return <ReviewsTab comments={comments}/>;
+    return <ReviewsTab />;
   }
 
   return <OverviewTab film={film}/>;
