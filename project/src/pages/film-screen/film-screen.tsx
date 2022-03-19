@@ -1,26 +1,43 @@
-import { Film } from '../../types/film';
 import { Link, useParams } from 'react-router-dom';
 import FilmList from '../../components/film-list/film-list';
 import Logo from '../../components/logo/logo';
 import PageFooter from '../../components/page-footer/page-footer';
 import UserBlock from '../../components/user-block/user-block';
-import { Comment } from '../../types/comment';
 import Tabs from '../../components/tabs/tabs';
+import { fetchGetFilmAction, fetchGetSimilarFilmsAction } from '../../store/api-actions';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { LoadingScreen } from '../../components/loading-screen/loading-screen';
+import { useEffect } from 'react';
+import { AuthorizationStatus } from '../../const';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 
-type FilmScreenProps = {
-  films: Film[];
-  comments: Comment[];
-}
-
-export default function FilmScreen({films, comments}: FilmScreenProps):JSX.Element{
+export default function FilmScreen():JSX.Element{
   const params = useParams<string>();
 
-  const paramsId = Number(params.id);
+  const filmId = Number(params.id);
 
-  const film: Film = films.filter((currentFilm) => currentFilm.id === +paramsId)[0];
-  const commentsCurrentFilm: Comment[] = comments.filter((currentComments) => currentComments.id === +paramsId);
+  const dispatch = useAppDispatch();
 
-  const {name, id, posterImage, genre, released, backgroundImage} = film;
+  const {film, user} = useAppSelector((state) => state);
+
+  useEffect(() => {
+    dispatch(fetchGetFilmAction(filmId));
+    dispatch(fetchGetSimilarFilmsAction(filmId));
+  },[dispatch, filmId]);
+
+  if (film.errorLoad) {
+    return <NotFoundScreen />;
+  }
+
+  if (!film.isLoaded) {
+    return <LoadingScreen />;
+  }
+
+  const activeFilm = film.data;
+
+  const commentsActiveFilm = film.comments.data;
+
+  const {name, id, posterImage, genre, released, backgroundImage} = activeFilm;
 
   return(
     <>
@@ -58,7 +75,11 @@ export default function FilmScreen({films, comments}: FilmScreenProps):JSX.Eleme
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+
+                {user.authorizationStatus === AuthorizationStatus.Auth
+                  ? <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+                  : ''}
+
               </div>
             </div>
           </div>
@@ -71,7 +92,7 @@ export default function FilmScreen({films, comments}: FilmScreenProps):JSX.Eleme
             </div>
 
             <div className="film-card__desc">
-              <Tabs film={film} comments={commentsCurrentFilm}/>
+              <Tabs film={activeFilm} comments={commentsActiveFilm}/>
             </div>
           </div>
         </div>
@@ -80,7 +101,7 @@ export default function FilmScreen({films, comments}: FilmScreenProps):JSX.Eleme
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films={films} genre={genre} id={id}/>
+          <FilmList films={film.similarFilms}/>
         </section>
 
         <PageFooter />
