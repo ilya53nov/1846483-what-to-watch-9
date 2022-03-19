@@ -1,11 +1,10 @@
 import dayjs from 'dayjs';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchGetCommentsAction } from '../../store/api-actions';
 import { Comment } from '../../types/comment';
-
-
-type ReviewsTabProps = {
-  comments: Comment[];
-
-}
+import { LoadingScreen } from '../loading-screen/loading-screen';
 
 type ReviewProps = {
   currentComment: Comment;
@@ -32,8 +31,26 @@ function Review({currentComment}: ReviewProps):JSX.Element {
   );
 }
 
-function ReviewList({comments}: ReviewsTabProps):JSX.Element {
-  const reviewList = comments.map((comment) => <Review key={comment.id} currentComment={comment} />);
+export default function ReviewsTab():JSX.Element {
+  const params = useParams<string>();
+
+  const filmId = Number(params.id);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchGetCommentsAction(filmId));
+  }, [dispatch, filmId]);
+
+  const {data, isLoaded} = useAppSelector((state) => state.film.comments);
+
+  if (!isLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
+  const reviewList = data.map((comment) => <Review key={comment.id} currentComment={comment} />);
 
   return(
     <div className="film-card__reviews film-card__row">
@@ -41,11 +58,5 @@ function ReviewList({comments}: ReviewsTabProps):JSX.Element {
         {reviewList}
       </div>
     </div>
-  );
-}
-
-export default function ReviewsTab({comments}: ReviewsTabProps):JSX.Element {
-  return(
-    <ReviewList comments={comments}/>
   );
 }
