@@ -1,14 +1,20 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { DEFAULT_COMMENT, DEFAULT_RATING, MAX_RATING, MIN_RATING } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { addComment } from '../../store/api-actions';
+import { CommentData } from '../../types/comment-data';
 import RatingStar from './rating-star';
 
-const MAX_RATING = 10;
-const MIN_RATING = 1;
-const DEFAULT_RATING = 8;
-const DEFAULT_COMMENT = '';
-//checked
 export default function CommentSubmitForm():JSX.Element {
   const [rating, setRating] = useState(DEFAULT_RATING);
   const [comment, setComment] = useState(DEFAULT_COMMENT);
+
+  const params = useParams();
+
+  const filmId = Number(params.id);
+
+  const dispatch = useAppDispatch();
 
   const ratingStars = [];
 
@@ -23,8 +29,21 @@ export default function CommentSubmitForm():JSX.Element {
     setComment(value);
   };
 
+  const onSubmit = (commentData: CommentData) => {
+    dispatch(addComment(commentData));
+  };
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (comment) {
+      onSubmit({comment: comment, rating: rating, filmId: filmId});
+    }
+
+  };
+
   return(
-    <form action="#" className="add-review__form">
+    <form action="#" onSubmit={handleSubmit} className="add-review__form">
       <div className="rating">
         <div className="rating__stars">
           {ratingStarsList}
