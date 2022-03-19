@@ -1,27 +1,30 @@
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CommentSubmitForm from '../../components/comment-submit-form/comment-submit-form';
+import { LoadingScreen } from '../../components/loading-screen/loading-screen';
 import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
-import {Film} from '../../types/film';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchGetFilmAction } from '../../store/api-actions';
 
-type AddReviewProps = {
-  films: Film[];
-}
-
-export default function AddReviewScreen({films}:AddReviewProps):JSX.Element{
+export default function AddReviewScreen():JSX.Element{
   const params = useParams();
 
-  const paramsId = params.id;
+  const filmId = Number(params.id);
 
-  let film: Film;
+  const dispatch = useAppDispatch();
 
-  // TO DO
-  paramsId
-    ? film = films.filter((currentFilm) => currentFilm.id === +paramsId)[0]
-    : film = films[0];
+  const {data, isLoaded} = useAppSelector((state) => state.film);
 
-  const {name, id, posterImage, backgroundImage} = film;
+  useEffect(() => {
+    dispatch(fetchGetFilmAction(filmId));
+  }, [filmId, dispatch]);
 
+  if (!isLoaded) {
+    return(<LoadingScreen />);
+  }
+
+  const {name, id, posterImage, backgroundImage} = data;
 
   return(
     <section className="film-card film-card--full">
