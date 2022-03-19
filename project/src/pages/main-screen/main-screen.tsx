@@ -8,15 +8,17 @@ import { useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
 
 export default function MainScreen():JSX.Element {
-  const genres = useAppSelector((state) => state.genres);
+  const genres = useAppSelector((state) => state.films.genres);
 
-  const filmsCount = useAppSelector((state) => state.films.length);
+  const filmsCount = useAppSelector((state) => state.films.data.length);
 
   const showedFilmsCount = useAppSelector((state) => state.showedFilmsCount);
 
-  const films = useAppSelector((state) => state.films).slice(0, showedFilmsCount);
+  const films = useAppSelector((state) => state.films.data).slice(0, showedFilmsCount);
 
-  const {name, genre, released, backgroundImage, posterImage} = films[0];
+  const promoFilm = useAppSelector((state) => state.promoFilm);
+
+  const {name, genre, released, backgroundImage, posterImage} = promoFilm;
   return (
     <Fragment>
       <section className="film-card">

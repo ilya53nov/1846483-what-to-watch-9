@@ -1,14 +1,12 @@
 import FilmList from '../../components/film-list/film-list';
-import {Film} from '../../types/film';
 import Logo from '../../components/logo/logo';
 import PageFooter from '../../components/page-footer/page-footer';
 import UserBlock from '../../components/user-block/user-block';
+import { useAppSelector } from '../../hooks';
 
-type MyListScreenProps = {
-  films: Film[];
-}
+export default function MyListScreen():JSX.Element {
+  const {data} = useAppSelector((state) => state.films);
 
-export default function MyListScreen({films}: MyListScreenProps):JSX.Element {
   return(
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -21,7 +19,7 @@ export default function MyListScreen({films}: MyListScreenProps):JSX.Element {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <FilmList films={films} />
+        <FilmList films={data} />
       </section>
 
       <PageFooter />

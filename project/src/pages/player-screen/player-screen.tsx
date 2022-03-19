@@ -1,11 +1,10 @@
-import { Film } from '../../types/film';
+import { useAppSelector } from '../../hooks';
 
-type PlayerScreenProps = {
-  film: Film
-}
+export default function PlayerScreen():JSX.Element{
 
-export default function PlayerScreen({film}: PlayerScreenProps):JSX.Element{
-  const {videoLink, previewVideoLink} = film;
+  const {data} = useAppSelector((state) => state.film);
+
+  const {videoLink, previewVideoLink} = data;
 
   return(
     <div className="player">
