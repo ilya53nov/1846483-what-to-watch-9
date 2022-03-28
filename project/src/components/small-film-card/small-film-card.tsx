@@ -58,4 +58,3 @@ export default function SmallFilmCard({film}: SmallFilmCardProps): JSX.Element {
     </article>
   );
 }
-
