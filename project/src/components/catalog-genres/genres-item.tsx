@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks';
-import { choiceGenre } from '../../store/action';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getInitialFilms } from '../../store/app-data/selectors';
+import { choiceGenre, filterFilmsByGenre } from '../../store/app-process/app-process';
 
 type GenresItemProps = {
   genre: string;
@@ -10,10 +11,13 @@ type GenresItemProps = {
 export default function GenresItem({genre, activeGenre}: GenresItemProps):JSX.Element {
   const dispatch = useAppDispatch();
 
+  const initialFilms = useAppSelector(getInitialFilms);
+
   return(
     <li className={`catalog__genres-item${genre === activeGenre ? ' catalog__genres-item--active' : ''}`}>
       <Link onClick={() => {
         dispatch(choiceGenre(genre));
+        dispatch(filterFilmsByGenre(initialFilms));
       }}
       to='/' className="catalog__genres-link"
       >{genre}
