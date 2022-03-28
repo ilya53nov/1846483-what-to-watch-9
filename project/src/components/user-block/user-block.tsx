@@ -1,20 +1,28 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { logoutAction } from '../../store/api-actions';
+import { fetchFavoriteFilmsAction, logoutAction } from '../../store/api-actions';
+import { getAuthorizationStatus, getUserData } from '../../store/user-process/selectors';
 
 export default function UserBlock(): JSX.Element {
-  const {authorizationStatus, data} = useAppSelector((state) => state.user);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
+  const user = useAppSelector(getUserData);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onClick = () => {
+  const handleClickSignOutButton = () => {
     dispatch(logoutAction());
     navigate(AppRoute.Main);
   };
 
-  if (authorizationStatus === AuthorizationStatus.NoAuth || !data) {
+  const handleClickAvatar = () => {
+    dispatch(fetchFavoriteFilmsAction());
+    navigate(AppRoute.MyList);
+  };
+
+  if (authorizationStatus === AuthorizationStatus.NoAuth || !user) {
     return (
       <div className="user-block">
         <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
@@ -26,11 +34,11 @@ export default function UserBlock(): JSX.Element {
     <ul className="user-block">
       <li className="user-block__item">
         <div className="user-block__avatar">
-          <img src={data.avatarUrl} alt="User avatar" width="63" height="63" />
+          <img onClick={handleClickAvatar} src={user.avatarUrl} alt="User avatar" width="63" height="63" />
         </div>
       </li>
       <li className="user-block__item">
-        <Link to='/' onClick={onClick} className="user-block__link">Sign out</Link>
+        <Link to='/' onClick={handleClickSignOutButton} className="user-block__link">Sign out</Link>
       </li>
     </ul>
   );
