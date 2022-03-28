@@ -1,24 +1,42 @@
 import FilmList from '../../components/film-list/film-list';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import Logo from '../../components/logo/logo';
 import PageFooter from '../../components/page-footer/page-footer';
 import UserBlock from '../../components/user-block/user-block';
 import GenresList from '../../components/catalog-genres/genres-list';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import ShowMoreButton from '../../components/show-more-button/show-more-button';
+import FilmCardDesc from '../../components/film-card-desc/film-card-desc';
+import { DEFAULT_GENRE, MAX_GENRES } from '../../const';
+import { Films } from '../../types/film';
+import { getInitialFilms, getPromoFIlm } from '../../store/app-data/selectors';
+import { getFilteredFilmsByGenre, getShowedFilmsCount } from '../../store/app-process/selectors';
+import { filterFilmsByGenre } from '../../store/app-process/app-process';
+
+const getGenres = (films: Films) => [...new Set([DEFAULT_GENRE, ...Array.from(films, ({genre}) => genre)])].slice(0, MAX_GENRES);
 
 export default function MainScreen():JSX.Element {
-  const genres = useAppSelector((state) => state.films.genres);
+  const dispatch = useAppDispatch();
 
-  const filmsCount = useAppSelector((state) => state.films.data.length);
+  const initialFIlms = useAppSelector(getInitialFilms);
 
-  const showedFilmsCount = useAppSelector((state) => state.showedFilmsCount);
+  useEffect(() => {
+    dispatch(filterFilmsByGenre(initialFIlms));
+  }, [dispatch, initialFIlms]);
 
-  const films = useAppSelector((state) => state.films.data).slice(0, showedFilmsCount);
+  const filteredFilmsByGenre = useAppSelector(getFilteredFilmsByGenre);
 
-  const promoFilm = useAppSelector((state) => state.promoFilm);
+  const filmsCount = filteredFilmsByGenre.length;
 
-  const {name, genre, released, backgroundImage, posterImage} = promoFilm;
+  const showedFilmsCount = useAppSelector(getShowedFilmsCount);
+
+  const genres = getGenres(initialFIlms);
+
+  const filmsToShow = filteredFilmsByGenre.slice(0, showedFilmsCount);
+
+  const promoFilm = useAppSelector(getPromoFIlm);
+
+  const {name, backgroundImage, posterImage} = promoFilm;
   return (
     <Fragment>
       <section className="film-card">
@@ -39,28 +57,8 @@ export default function MainScreen():JSX.Element {
               <img src={posterImage} alt={name} width="218" height="327" />
             </div>
 
-            <div className="film-card__desc">
-              <h2 className="film-card__title">{name}</h2>
-              <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{released}</span>
-              </p>
+            <FilmCardDesc film={promoFilm} />
 
-              <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -71,7 +69,7 @@ export default function MainScreen():JSX.Element {
 
           <GenresList genres={genres}/>
 
-          <FilmList films={films} />
+          <FilmList films={filmsToShow} />
 
           <ShowMoreButton showedFilmsCount={showedFilmsCount} filmsCount={filmsCount}/>
         </section>
