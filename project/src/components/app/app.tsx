@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector} from '../../hooks';
 import { resetShowedFilmsCount } from '../../store/action';
 import { useEffect } from 'react';
 import { LoadingScreen } from '../loading-screen/loading-screen';
+import { getLoadedFilmsStatus } from '../../store/app-data/selectors';
 
 
 function App(): JSX.Element {
@@ -19,7 +20,7 @@ function App(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  const {isLoaded} = useAppSelector((state) => state.films);
+  const isLoaded = useAppSelector(getLoadedFilmsStatus);
 
   useEffect(() => {
     if (pathname !== AppRoute.Main) {
