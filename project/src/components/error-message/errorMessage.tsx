@@ -1,6 +1,8 @@
-import {useAppSelector} from '../../hooks';
+
+//import {useAppSelector} from '../../hooks';
 
 function ErrorMessage(): JSX.Element | null {
+  /*
   const {error} = useAppSelector((state) => state);
 
   if (error) {
@@ -20,6 +22,7 @@ function ErrorMessage(): JSX.Element | null {
       </div>
     );
   }
+  */
 
   return null;
 }
