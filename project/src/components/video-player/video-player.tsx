@@ -25,6 +25,8 @@ export default function VideoPlayer({poster, src, isMute, isPlay}: VideoPlayerPr
     if (videoRef.current !== null) {
       if (isPlay) {
         videoRef.current.play();
+      } else {
+        videoRef.current.pause();
       }
     }
   }, [isPlay]);
