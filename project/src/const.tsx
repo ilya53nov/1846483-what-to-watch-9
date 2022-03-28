@@ -20,6 +20,7 @@ export enum Action {
   RequireAuthorization = 'Require authorization',
   SetError = 'Set error',
   LoadFilms = 'Load films',
+  LoadFovoriteFilms = 'Load favorite films',
   LoadSimilarFilms = 'Load similar films',
   LoadFilm = 'Load film',
   LoadPromoFilm = 'Load promo film',
@@ -27,6 +28,13 @@ export enum Action {
   Login = 'Login',
   Logout = 'Logout',
   AddComment = 'Add comment',
+  ChangeStatusToView = 'Change status to view',
+}
+
+export enum NameSpace {
+  data = 'DATA',
+  user = 'USER',
+  app ='APP',
 }
 
 export enum Tab {
@@ -50,6 +58,34 @@ export enum HTTP_CODE {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
 }
+
+export const playerControl = {
+  Play: {
+    width: 19,
+    height: 19,
+    xlinkHref: '#play-s',
+    desc: 'Play',
+    className: 'player__play',
+  },
+
+  Pause: {
+    width: 14,
+    height: 21,
+    xlinkHref: '#pause',
+    desc: 'Pause',
+    className: 'player__play',
+  },
+
+  FullScreen: {
+    width: 27,
+    height: 27,
+    xlinkHref: '#full-screen',
+    desc: 'Full screen',
+    className: 'player__full-screen',
+  },
+
+
+};
 
 export const BACKEND_URL = 'https://9.react.pages.academy/wtw';
 
