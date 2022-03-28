@@ -1,16 +1,39 @@
+import dayjs from 'dayjs';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PlayerControlFullScreen from '../../components/player-control/player-control-full-screen';
+import PlayerControlPause from '../../components/player-control/player-control-pause';
+import PlayerControlPlay from '../../components/player-control/player-control-play';
+import VideoPlayer from '../../components/video-player/video-player';
 import { useAppSelector } from '../../hooks';
+import { getFilm } from '../../store/app-data/selectors';
 
 export default function PlayerScreen():JSX.Element{
+  const [isPlay, setIsPlay] = useState(true);
 
-  const {data} = useAppSelector((state) => state.film);
+  const film = useAppSelector(getFilm);
 
-  const {videoLink, previewVideoLink} = data;
+  const navigate = useNavigate();
+
+  const {videoLink, previewVideoLink, runTime} = film;
+
+  const handleClickExitButton = () => {
+    navigate(-1);
+  };
+
+  const handleClickPlayButton = () => {
+    setIsPlay(false);
+  };
+
+  const handleClickPauseButton = () => {
+    setIsPlay(true);
+  };
 
   return(
     <div className="player">
-      <video src={videoLink} className="player__video" poster={previewVideoLink}></video>
+      <VideoPlayer isMute={false} isPlay={isPlay} poster={previewVideoLink} src={videoLink} />
 
-      <button type="button" className="player__exit">Exit</button>
+      <button onClick={handleClickExitButton} type="button" className="player__exit">Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">
@@ -18,24 +41,18 @@ export default function PlayerScreen():JSX.Element{
             <progress className="player__progress" value="30" max="100"></progress>
             <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
           </div>
-          <div className="player__time-value">1:30:29</div>
+          <div className="player__time-value">{dayjs.duration(runTime, 'minutes').format(`${runTime > 60 ? 'H[:]m[:]ss' : 'm'}`)}</div>
         </div>
 
         <div className="player__controls-row">
-          <button type="button" className="player__play">
-            <svg viewBox="0 0 19 19" width="19" height="19">
-              <use xlinkHref="#play-s"></use>
-            </svg>
-            <span>Play</span>
-          </button>
+
+          {isPlay
+            ? <PlayerControlPlay onClick={handleClickPlayButton}/>
+            : <PlayerControlPause onClick={handleClickPauseButton}/>}
+
           <div className="player__name">Transpotting</div>
 
-          <button type="button" className="player__full-screen">
-            <svg viewBox="0 0 27 27" width="27" height="27">
-              <use xlinkHref="#full-screen"></use>
-            </svg>
-            <span>Full screen</span>
-          </button>
+          <PlayerControlFullScreen />
         </div>
       </div>
     </div>
