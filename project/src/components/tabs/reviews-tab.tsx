@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchGetCommentsAction } from '../../store/api-actions';
+import { getComments, getLoadedCommentsStatus } from '../../store/app-data/selectors';
 import { Comment } from '../../types/comment';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 
@@ -42,15 +43,17 @@ export default function ReviewsTab():JSX.Element {
     dispatch(fetchGetCommentsAction(filmId));
   }, [dispatch, filmId]);
 
-  const {data, isLoaded} = useAppSelector((state) => state.film.comments);
+  const comments = useAppSelector(getComments);
 
-  if (!isLoaded) {
+  const isLoadedComments = useAppSelector(getLoadedCommentsStatus);
+
+  if (!isLoadedComments) {
     return (
       <LoadingScreen />
     );
   }
 
-  const reviewList = data.map((comment) => <Review key={comment.id} currentComment={comment} />);
+  const reviewList = comments.map((comment) => <Review key={comment.id} currentComment={comment} />);
 
   return(
     <div className="film-card__reviews film-card__row">

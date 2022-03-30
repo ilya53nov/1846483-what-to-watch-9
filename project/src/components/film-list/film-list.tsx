@@ -1,11 +1,12 @@
 import SmallFilmCard from '../small-film-card/small-film-card';
 import { Film } from '../../types/film';
+import { memo } from 'react';
 
 type FilmListProops = {
   films: Film[];
 }
 
-export default function FilmList({films}: FilmListProops):JSX.Element {
+function FilmList({films}: FilmListProops):JSX.Element {
   const filmList = films
     .map((film) => <SmallFilmCard key={film.id} film={film} />);
 
@@ -15,3 +16,5 @@ export default function FilmList({films}: FilmListProops):JSX.Element {
     </div>
   );
 }
+
+export default memo(FilmList);

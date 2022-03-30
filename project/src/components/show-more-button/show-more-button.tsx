@@ -1,5 +1,5 @@
 import { useAppDispatch } from '../../hooks';
-import { showMore } from '../../store/action';
+import { showMore } from '../../store/app-process/app-process';
 
 type ShowMoreButtonProps = {
   showedFilmsCount: number;

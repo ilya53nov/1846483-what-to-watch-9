@@ -1,4 +1,5 @@
 import { useAppSelector } from '../../hooks';
+import { getActiveGenre } from '../../store/app-process/selectors';
 import GenresItem from './genres-item';
 
 type GenresListProps = {
@@ -6,7 +7,7 @@ type GenresListProps = {
 }
 
 export default function GenresList({genres}: GenresListProps):JSX.Element{
-  const activeGenre = useAppSelector((state) => state.activeGenre);
+  const activeGenre = useAppSelector(getActiveGenre);
 
   const genresList = genres.map((genre) => <GenresItem key={genre} genre={genre} activeGenre={activeGenre} />);
 

@@ -6,6 +6,7 @@ import Logo from '../../components/logo/logo';
 import UserBlock from '../../components/user-block/user-block';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchGetFilmAction } from '../../store/api-actions';
+import { getFilm, getLoadedFilmStatus } from '../../store/app-data/selectors';
 
 export default function AddReviewScreen():JSX.Element{
   const params = useParams();
@@ -14,17 +15,19 @@ export default function AddReviewScreen():JSX.Element{
 
   const dispatch = useAppDispatch();
 
-  const {data, isLoaded} = useAppSelector((state) => state.film);
+  const film = useAppSelector(getFilm);
+
+  const isLoadedFilm = useAppSelector(getLoadedFilmStatus);
 
   useEffect(() => {
     dispatch(fetchGetFilmAction(filmId));
   }, [filmId, dispatch]);
 
-  if (!isLoaded) {
+  if (!isLoadedFilm) {
     return(<LoadingScreen />);
   }
 
-  const {name, id, posterImage, backgroundImage} = data;
+  const {name, id, posterImage, backgroundImage} = film;
 
   return(
     <section className="film-card film-card--full">
