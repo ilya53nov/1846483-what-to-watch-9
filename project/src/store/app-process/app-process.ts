@@ -7,10 +7,11 @@ const initialState: AppProcess = {
   activeGenre: DEFAULT_GENRE,
   showedFilmsCount: FILMS_PER_PAGE,
   filteredFilmsByGenre: [] as Films,
+  isDisabledForm: false,
 };
 
 export const appProcess = createSlice({
-  name: NameSpace.app,
+  name: NameSpace.App,
   initialState,
   reducers: {
     filterFilmsByGenre: (state, action) => {
@@ -26,7 +27,13 @@ export const appProcess = createSlice({
     resetShowedFilmsCount: (state) => {
       state.showedFilmsCount = FILMS_PER_PAGE;
     },
+    enableForm: (state) => {
+      state.isDisabledForm = false;
+    },
+    disableForm: (state) => {
+      state.isDisabledForm = true;
+    },
   },
 });
 
-export const {choiceGenre, resetShowedFilmsCount, showMore, filterFilmsByGenre} = appProcess.actions;
+export const {choiceGenre, resetShowedFilmsCount, showMore, filterFilmsByGenre, disableForm, enableForm} = appProcess.actions;
