@@ -57,7 +57,7 @@ export default function MainScreen():JSX.Element {
               <img src={posterImage} alt={name} width="218" height="327" />
             </div>
 
-            <FilmCardDesc film={promoFilm} />
+            <FilmCardDesc film={promoFilm}/>
 
           </div>
         </div>

@@ -8,7 +8,7 @@ import { fetchGetFilmAction, fetchGetSimilarFilmsAction } from '../../store/api-
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { LoadingScreen } from '../../components/loading-screen/loading-screen';
 import { useEffect } from 'react';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, MAX_COUNT_SIMILAR_FILMS } from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import FilmCardDesc from '../../components/film-card-desc/film-card-desc';
 import { getComments, getFilm, getFoundedFilmStatus, getLoadedFilmStatus, getSimilarFilms } from '../../store/app-data/selectors';
@@ -22,7 +22,7 @@ export default function FilmScreen():JSX.Element{
 
   const film = useAppSelector(getFilm);
 
-  const similarFilms = useAppSelector(getSimilarFilms);
+  const similarFilms = useAppSelector(getSimilarFilms).slice(0, MAX_COUNT_SIMILAR_FILMS);
 
   const comments = useAppSelector(getComments);
 
