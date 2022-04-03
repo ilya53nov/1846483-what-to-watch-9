@@ -4,7 +4,7 @@ import App from './components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { checkAuthAction, fetchFilmsAction, fetchFilmPromoAction } from './store/api-actions';
-import ErrorMessage from './components/error-message/errorMessage';
+import ErrorMessage from './components/error-message/error-message';
 import HistoryRouter from './components/history-route/history-route';
 import browserHistory from './browser-history';
 
