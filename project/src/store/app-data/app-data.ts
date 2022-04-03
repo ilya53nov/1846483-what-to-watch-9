@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { DEFAULT_GENRE, NameSpace } from '../../const';
+import { NameSpace } from '../../const';
 import { Comments } from '../../types/comment';
 import { Film, Films } from '../../types/film';
 import { AppData} from '../../types/state';
@@ -17,15 +17,14 @@ const initialState: AppData = {
     },
   },
 
-  fovoriteFilms: {
-    data: {} as Films,
+  favoriteFilms: {
+    data: [] as Films,
     isLoaded: false,
   },
 
   films: {
     data: [] as Films,
     isLoaded: false,
-    filteredFilmsByGenre: [] as Films,
   },
 
   initialFilms: [] as Films,
@@ -36,20 +35,17 @@ const initialState: AppData = {
 };
 
 export const appData = createSlice({
-  name: NameSpace.data,
+  name: NameSpace.Data,
   initialState,
   reducers: {
-    filterFilmsByGenre: (state, action) => {
-      state.films.filteredFilmsByGenre = action.payload === DEFAULT_GENRE ? state.initialFilms : state.initialFilms.filter((film) => film.genre === action.payload);
-    },
     loadFilms: (state, action) => {
       state.initialFilms = action.payload.data;
       state.films.data = action.payload.data;
       state.films.isLoaded = true;
     },
     loadFavoriteFilms: (state, action) => {
-      state.fovoriteFilms.data = action.payload.data;
-      state.fovoriteFilms.isLoaded = true;
+      state.favoriteFilms.data = action.payload.data;
+      state.favoriteFilms.isLoaded = true;
     },
     loadFilm: (state, action) => {
       state.film.data = action.payload.data;
@@ -72,4 +68,4 @@ export const appData = createSlice({
   },
 });
 
-export const {loadFilm, loadFilms, loadPromoFilm, loadSimilarFilms, loadComments, setError, filterFilmsByGenre, loadFavoriteFilms} = appData.actions;
+export const {loadFilm, loadFilms, loadPromoFilm, loadSimilarFilms, loadComments, setError, loadFavoriteFilms} = appData.actions;
