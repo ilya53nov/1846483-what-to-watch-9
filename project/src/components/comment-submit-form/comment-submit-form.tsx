@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { addComment } from '../../store/api-actions';
 import { getIsDisabledForm } from '../../store/app-process/selectors';
 import { CommentData } from '../../types/comment-data';
-import ErrorMessage from '../error-message/errorMessage';
+import ErrorMessage from '../error-message/error-message';
 import RatingStar from './rating-star';
 
 export default function CommentSubmitForm():JSX.Element {
