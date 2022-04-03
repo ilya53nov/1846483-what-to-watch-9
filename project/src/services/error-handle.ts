@@ -1,8 +1,8 @@
 import request from 'axios';
 import { HTTP_CODE } from '../const';
 import { store } from '../store';
-import { setError } from '../store/action';
 import { clearErrorAction } from '../store/api-actions';
+import { setError } from '../store/app-data/app-data';
 import { ErrorType } from '../types/error';
 
 export const errorHandle = (error: ErrorType): void => {
