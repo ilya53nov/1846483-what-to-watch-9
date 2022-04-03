@@ -13,10 +13,9 @@ export type AppData = {
   films: {
     data: Films;
     isLoaded: boolean;
-    filteredFilmsByGenre: Films;
   }
 
-  fovoriteFilms: {
+  favoriteFilms: {
     data: Films;
     isLoaded: boolean;
   }
@@ -25,7 +24,7 @@ export type AppData = {
     data: Film;
     isLoaded: boolean;
     similarFilms: Films;
-    isFound: boolean | Unknown;
+    isFound: boolean | string;
 
     comments: {
       data: Comments;
@@ -44,9 +43,10 @@ export type AppProcess = {
   activeGenre: string;
   showedFilmsCount: number;
   filteredFilmsByGenre: Films;
+  isDisabledForm: boolean;
 }
 
-export type Unknown = 'UNKNOWN';
+export const Unknown = 'UNKNOWN';
 
 export type State = ReturnType<typeof store.getState>;
 

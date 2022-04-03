@@ -29,12 +29,14 @@ export enum Action {
   Logout = 'Logout',
   AddComment = 'Add comment',
   ChangeStatusToView = 'Change status to view',
+  ClearError = 'Clear error',
+  Redirect = 'Redirect',
 }
 
 export enum NameSpace {
-  data = 'DATA',
-  user = 'USER',
-  app ='APP',
+  Data = 'DATA',
+  User = 'USER',
+  App ='APP',
 }
 
 export enum Tab {
@@ -97,6 +99,8 @@ export const DEFAULT_GENRE = 'All genres';
 
 export const MAX_GENRES = 9;
 
+export const MAX_COUNT_SIMILAR_FILMS = 4;
+
 export const FILMS_PER_PAGE = 8;
 
 export const MAX_RATING = 10;
@@ -106,6 +110,8 @@ export const MIN_RATING = 1;
 export const DEFAULT_RATING = 8;
 
 export const DEFAULT_COMMENT = '';
+
+export const DEFAULT_ERROR = '';
 
 export const DEFAULT_MUTE = true;
 
