@@ -1,8 +1,7 @@
 import { memo, ReactNode, SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { changeStatusToView } from '../../store/api-actions';
-import { getFilm } from '../../store/app-data/selectors';
 import { Film } from '../../types/film';
 import { FilmStatus } from '../../types/film-status';
 
@@ -12,9 +11,7 @@ type FilmCardDescProps = {
 }
 
 function FilmCardDesc({film, children}: FilmCardDescProps):JSX.Element {
-  const filmT = useAppSelector(getFilm);
-
-  const {name, genre, released, id, isFavorite} = filmT;
+  const {name, genre, released, id, isFavorite} = film;
 
   const navigate = useNavigate();
 

@@ -15,8 +15,6 @@ export default function SmallFilmCard({film}: SmallFilmCardProps): JSX.Element {
 
   let timeoutId: ReturnType<typeof setTimeout> | null;
 
-  // TODO
-
   const turnOffPlay = () => {
     if (timeoutId) {
       clearTimeout(timeoutId);

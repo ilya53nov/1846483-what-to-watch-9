@@ -9,10 +9,10 @@ import SignInScreen from '../../pages/sign-in-screen/sign-in-screen';
 import {AppRoute} from '../../const';
 import PrivateRoute from '../../private-route';
 import { useAppDispatch, useAppSelector} from '../../hooks';
-import { resetShowedFilmsCount } from '../../store/action';
 import { useEffect } from 'react';
 import { LoadingScreen } from '../loading-screen/loading-screen';
 import { getLoadedFilmsStatus } from '../../store/app-data/selectors';
+import { resetShowedFilmsCount } from '../../store/app-process/app-process';
 
 
 function App(): JSX.Element {
@@ -35,9 +35,7 @@ function App(): JSX.Element {
   }
 
   return (
-
     <Routes>
-
       <Route path={AppRoute.Main} element={<MainScreen/>} />
       <Route path={AppRoute.MyList} element={
         <PrivateRoute>
@@ -51,8 +49,6 @@ function App(): JSX.Element {
       <Route path={AppRoute.SignIn} element={<SignInScreen />} />
       <Route path="*" element={<NotFoundScreen />} />
     </Routes>
-
-
   );
 }
 
