@@ -7,7 +7,7 @@ describe('Reducer: appProcess', () => {
 
   it('Следует увеличить число фильмов для показа', () => {
     expect(appProcess.reducer(state, showMore()))
-      .toEqual({showedFilmsCount: 8, activeGenre: '', filteredFilmsByGenre: []});
+      .toEqual({...state, showedFilmsCount: 8, activeGenre: '', filteredFilmsByGenre: []});
   });
 
   it('Следует сбросить число фильмов для показа', () => {
@@ -23,7 +23,7 @@ describe('Reducer: appProcess', () => {
 
   it('Следует установить активный жанр', () => {
     expect(appProcess.reducer(state, choiceGenre('Comedy')))
-      .toEqual({showedFilmsCount: 8, activeGenre: 'Comedy', filteredFilmsByGenre: []});
+      .toEqual({...state, showedFilmsCount: 8, activeGenre: 'Comedy', filteredFilmsByGenre: []});
   });
 
   describe('Фильтр фильмов по жанру', () => {
