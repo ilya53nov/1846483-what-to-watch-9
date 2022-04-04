@@ -47,8 +47,6 @@ export default function MainScreen():JSX.Element {
     return <LoadingScreen />;
   }
 
-  //const promoFilm = useAppSelector(getFilm);
-
   const {name, backgroundImage, posterImage} = film;
   return (
     <Fragment>
