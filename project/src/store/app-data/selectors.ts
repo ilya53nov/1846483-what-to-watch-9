@@ -25,6 +25,6 @@ export const getLoadedCommentsStatus = (state: State): boolean => state[NameSpac
 
 export const getInitialFilms = (state: State): Films => state[NameSpace.Data].initialFilms;
 
-export const getPromoFIlm = (state: State): Film => state[NameSpace.Data].promoFilm;
+export const getPromoFilm = (state: State): Film => state[NameSpace.Data].promoFilm;
 
 export const getError = (state: State): string => state[NameSpace.Data].error;

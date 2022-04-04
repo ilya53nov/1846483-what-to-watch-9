@@ -12,6 +12,7 @@ import { AuthorizationStatus, MAX_COUNT_SIMILAR_FILMS } from '../../const';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import FilmCardDesc from '../../components/film-card-desc/film-card-desc';
 import { getComments, getFilm, getFoundedFilmStatus, getLoadedFilmStatus, getSimilarFilms } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 export default function FilmScreen():JSX.Element{
   const params = useParams<string>();
@@ -22,7 +23,7 @@ export default function FilmScreen():JSX.Element{
 
   const film = useAppSelector(getFilm);
 
-  const similarFilms = useAppSelector(getSimilarFilms).slice(0, MAX_COUNT_SIMILAR_FILMS);
+  const similarFilms = useAppSelector(getSimilarFilms).filter((currentFilm) => currentFilm.id !== filmId).slice(0, MAX_COUNT_SIMILAR_FILMS);
 
   const comments = useAppSelector(getComments);
 
@@ -30,7 +31,7 @@ export default function FilmScreen():JSX.Element{
 
   const filmIsLoaded = useAppSelector(getLoadedFilmStatus);
 
-  const user = useAppSelector(({USER}) => USER);
+  const userAuthorizationStatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     dispatch(fetchGetFilmAction(filmId));
@@ -64,7 +65,7 @@ export default function FilmScreen():JSX.Element{
 
           <div className="film-card__wrap">
             <FilmCardDesc film={film}>
-              {user.authorizationStatus === AuthorizationStatus.Auth
+              {userAuthorizationStatus === AuthorizationStatus.Auth
                 ? <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
                 : ''}
             </FilmCardDesc>

@@ -1,7 +1,9 @@
 import { memo, ReactNode, SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeStatusToView } from '../../store/api-actions';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { Film } from '../../types/film';
 import { FilmStatus } from '../../types/film-status';
 
@@ -17,6 +19,8 @@ function FilmCardDesc({film, children}: FilmCardDescProps):JSX.Element {
 
   const dispatch = useAppDispatch();
 
+  const userAuthorizationStatus = useAppSelector(getAuthorizationStatus);
+
   const handleClickPlayButton = (evt: SyntheticEvent) => {
     evt.preventDefault();
 
@@ -29,6 +33,11 @@ function FilmCardDesc({film, children}: FilmCardDescProps):JSX.Element {
 
   const handleClickMyListButton = (evt: SyntheticEvent) => {
     evt.preventDefault();
+
+    if (userAuthorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.SignIn);
+      return;
+    }
 
     const status = isFavorite ? 0 : 1;
 

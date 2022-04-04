@@ -103,8 +103,8 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   Action.Login,
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoute.Login);
-      dispatch(requireAuthorization({authorizationStatus: AuthorizationStatus.Auth}));
+      const {data} = await api.get(APIRoute.Login);
+      dispatch(requireAuthorization({authorizationStatus: AuthorizationStatus.Auth, data: data}));
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -169,6 +169,7 @@ export const changeStatusToView = createAsyncThunk<void, FilmStatus, {
   Action.ChangeStatusToView,
   async ({filmId: id, status: isFavorite}, { dispatch, extra: api}) => {
     const {data} = await api.post<FilmStatus>(`${APIRoute.Favorite}/${id}/${isFavorite}`);
+
     dispatch(loadFilm({data, isLoaded: true, isFound: true}));
   },
 );

@@ -22,11 +22,11 @@ export default function PlayerScreen():JSX.Element{
   };
 
   const handleClickPlayButton = () => {
-    setIsPlay(false);
+    setIsPlay(true);
   };
 
   const handleClickPauseButton = () => {
-    setIsPlay(true);
+    setIsPlay(false);
   };
 
   return(
@@ -47,8 +47,8 @@ export default function PlayerScreen():JSX.Element{
         <div className="player__controls-row">
 
           {isPlay
-            ? <PlayerControlPlay onClick={handleClickPlayButton}/>
-            : <PlayerControlPause onClick={handleClickPauseButton}/>}
+            ? <PlayerControlPause onClick={handleClickPauseButton}/>
+            : <PlayerControlPlay onClick={handleClickPlayButton}/>}
 
           <div className="player__name">Transpotting</div>
 

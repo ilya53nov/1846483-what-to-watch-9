@@ -9,9 +9,11 @@ import ShowMoreButton from '../../components/show-more-button/show-more-button';
 import FilmCardDesc from '../../components/film-card-desc/film-card-desc';
 import { DEFAULT_GENRE, MAX_GENRES } from '../../const';
 import { Films } from '../../types/film';
-import { getInitialFilms, getPromoFIlm } from '../../store/app-data/selectors';
+import { getFilm, getInitialFilms, getLoadedFilmStatus, getPromoFilm} from '../../store/app-data/selectors';
 import { getFilteredFilmsByGenre, getShowedFilmsCount } from '../../store/app-process/selectors';
 import { filterFilmsByGenre } from '../../store/app-process/app-process';
+import { fetchGetFilmAction } from '../../store/api-actions';
+import { LoadingScreen } from '../../components/loading-screen/loading-screen';
 
 const getGenres = (films: Films) => [...new Set([DEFAULT_GENRE, ...Array.from(films, ({genre}) => genre)])].slice(0, MAX_GENRES);
 
@@ -20,9 +22,14 @@ export default function MainScreen():JSX.Element {
 
   const initialFIlms = useAppSelector(getInitialFilms);
 
+  const promoFilm = useAppSelector(getPromoFilm);
+
   useEffect(() => {
     dispatch(filterFilmsByGenre(initialFIlms));
-  }, [dispatch, initialFIlms]);
+    dispatch(fetchGetFilmAction(promoFilm.id));
+  }, [dispatch, initialFIlms, promoFilm]);
+
+  const film = useAppSelector(getFilm);
 
   const filteredFilmsByGenre = useAppSelector(getFilteredFilmsByGenre);
 
@@ -34,9 +41,15 @@ export default function MainScreen():JSX.Element {
 
   const filmsToShow = filteredFilmsByGenre.slice(0, showedFilmsCount);
 
-  const promoFilm = useAppSelector(getPromoFIlm);
+  const filmIsLoaded = useAppSelector(getLoadedFilmStatus);
 
-  const {name, backgroundImage, posterImage} = promoFilm;
+  if (!filmIsLoaded) {
+    return <LoadingScreen />;
+  }
+
+  //const promoFilm = useAppSelector(getFilm);
+
+  const {name, backgroundImage, posterImage} = film;
   return (
     <Fragment>
       <section className="film-card">
@@ -57,7 +70,7 @@ export default function MainScreen():JSX.Element {
               <img src={posterImage} alt={name} width="218" height="327" />
             </div>
 
-            <FilmCardDesc film={promoFilm}/>
+            <FilmCardDesc film={film}/>
 
           </div>
         </div>
